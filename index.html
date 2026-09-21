@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI Agent 講義｜電腦能做的事，它都能做</title>
+<meta name="description" content="林冠宇（永續發展與校務研究中心）｜國際處分享 2026.09.21：AI Agent 是什麼、能做什麼、使用 AI 的三個層級，以及資安提醒。">
+<meta name="theme-color" content="#050912">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AI Agent 講義｜電腦能做的事，它都能做">
+<meta property="og:description" content="林冠宇｜國際處分享 2026.09.21：AI Agent 的差異、四大實戰任務、AI 近況、三個使用層級與資安提醒。">
+<meta property="og:image" content="assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<script>document.documentElement.classList.add("js");</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700;900&family=Space+Grotesk:wght@500;700&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<!-- ============ SVG icon sprite ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></symbol>
+    <symbol id="i-table" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M3 15h18M9 4v16"/></symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></symbol>
+    <symbol id="i-plug" viewBox="0 0 24 24"><path d="M9 3v5M15 3v5M6 8h12v3a6 6 0 0 1-12 0zM12 17v4"/></symbol>
+    <symbol id="i-slides" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V4M4 20h16M8 16v-5M13 16V8M18 16v-8"/></symbol>
+    <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6zM14 3v4h4M9 12h6M9 16h6"/></symbol>
+    <symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 7 9-7"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></symbol>
+    <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+    <symbol id="i-term" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M13 15h4"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-5.5 7-5.5s7 2 7 5.5M16 4.8a3.5 3.5 0 0 1 0 6.4M18 14.8c2.4.6 4 2.2 4 5.2"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+    <symbol id="i-full" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14a8 8 0 1 1-10-10 7 7 0 0 0 10 10z"/></symbol>
+    <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></symbol>
+    <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></symbol>
+    <symbol id="i-brain" viewBox="0 0 24 24"><path d="M9 4a3 3 0 0 0-3 3 3 3 0 0 0-2 5 3 3 0 0 0 2 5 3 3 0 0 0 6 1V4a3 3 0 0 0-3 0zM15 4a3 3 0 0 1 3 3 3 3 0 0 1 2 5 3 3 0 0 1-2 5 3 3 0 0 1-6 1"/></symbol>
+    <symbol id="i-loop" viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3M18 3v4h-4M6 21v-4h4"/></symbol>
+    <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0 5 5L21 12.6 12.6 21a2.1 2.1 0 0 1-3-3L18 9.6zM3 21l4-4"/></symbol>
+    <symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 3l10 18H2zM12 10v5M12 18v.5"/></symbol>
+    <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></symbol>
+    <symbol id="i-redo" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.6-5.9M20 4v5h-5"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+    <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+    <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></symbol>
+  </defs>
+</svg>
+
+<div class="bg" aria-hidden="true"></div>
+
+<!-- ============ chrome ============ -->
+<header class="topbar">
+  <div class="brand"><span class="pulse"></span><span><b>AI AGENT</b> // 講義</span></div>
+  <div class="crumb" id="crumb"></div>
+  <div class="tools">
+    <span class="count" id="counter"></span>
+    <button class="tbtn" id="btnMenu" title="目錄（M）" aria-label="開啟目錄"><svg class="i"><use href="#i-menu"/></svg></button>
+    <button class="tbtn" id="btnFull" title="全螢幕（F）" aria-label="全螢幕"><svg class="i"><use href="#i-full"/></svg></button>
+    <button class="tbtn" id="btnTheme" title="切換深／淺色（T）" aria-label="切換主題"><svg class="i"><use href="#i-moon"/></svg></button>
+  </div>
+  <div class="progress" id="progress"></div>
+</header>
+<nav class="dots" id="dots" aria-label="投影片導覽"></nav>
+
+<div class="menu" id="menu" hidden>
+  <button class="tbtn menu-close" id="btnMenuClose" aria-label="關閉目錄">✕</button>
+  <h2>目錄 <span class="dim" style="font-size:.9rem;font-weight:400">— 點選跳到該頁，Esc 關閉</span></h2>
+  <div class="menu-grid" id="menuGrid"></div>
+</div>
+
+<div class="kbd-hint" id="kbdHint"><span><kbd>↓</kbd> <kbd>Space</kbd> 下一頁</span><span><kbd>↑</kbd> 上一頁</span><span><kbd>M</kbd> 目錄</span><span><kbd>F</kbd> 全螢幕</span></div>
+
+<main id="deck">
+
+<!-- ====================================================================
+     PART 0 · 開場
+     ==================================================================== -->
+<section class="slide cover" id="cover" data-part="開場" data-title="封面">
+  <canvas id="net" aria-hidden="true"></canvas>
+  <div class="slide-inner">
+    <div>
+      <p class="eyebrow reveal">國際處分享 · AI Agent 實戰</p>
+      <h1 class="reveal"><span class="grad">AI Agent</span><span class="sub">電腦能做的事，它都能做</span></h1>
+      <p class="lead reveal">從「問答對話框」走到「會動手的數位同事」——看它如何做問卷報告、填交流報告、查詢登記資料、建排名儀表板。</p>
+      <div class="speaker reveal">
+        <span class="avatar">林</span>
+        <div class="who"><b>林冠宇</b><span>永續發展與校務研究中心</span></div>
+        <span class="sep"></span>
+        <div class="when"><b>2026.09.21</b><span>國際處 · 分享</span></div>
+      </div>
+      <div class="scrollcue reveal"><span class="mouse"></span> 向下滑動開始　<span class="dim">或按 <kbd>↓</kbd> / <kbd>Space</kbd></span></div>
+    </div>
+    <div class="term reveal" aria-label="Agent 執行示意">
+      <div class="term-bar"><i></i><i></i><i></i><span>agent — 執行中</span><span class="tag-demo">示意</span></div>
+      <div class="term-body" id="coverLog" data-log>
+        <span class="ln"><span class="cy">目標</span> 把校友問卷統計，做成分析簡報</span>
+        <span class="ln" data-d="700"><span class="mu">›</span> 讀取 data/ …… <span class="ok">所有 Excel 檔案</span></span>
+        <span class="ln"><span class="mu">›</span> 分析 …… 提出 insight、選擇圖表</span>
+        <span class="ln"><span class="mu">›</span> 執行 …… 產生 report.pptx（含 n 與附錄）</span>
+        <span class="ln"><span class="mu">›</span> 檢查 …… <span class="warn">樣本數過少，已標註</span></span>
+        <span class="ln" data-d="800"><span class="ok">✓ 完成，等你驗收</span></span>
+        <span class="ln caret"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="roadmap" data-part="開場" data-title="今天的路線">
+  <div class="slide-inner">
+    <p class="eyebrow reveal">Roadmap</p>
+    <h2 class="reveal">今天的路線：<span class="grad">介紹 → 範例 → 實作 → 回顧</span></h2>
+    <div class="g2 mt-s" style="align-items:start">
+      <div class="route reveal">
+        <a class="rt" href="#vs"><span class="no">01</span><div><h3>對話框 vs. Agent</h3><p>同樣是 AI，差在「聊天」還是「做事」</p></div><span class="badge">4 頁</span></a>
+        <a class="rt" href="#mindset"><span class="no">02</span><div><h3>思維：電腦能做的，它都能做</h3><p>把 AI 當「會用電腦的同事」</p></div><span class="badge">2 頁</span></a>
+        <a class="rt" href="#a1"><span class="no">03</span><div><h3>四大實戰任務 ＋ 現場實作</h3><p>問卷簡報｜交流報告｜商工登記查詢｜排名儀表板</p></div><span class="badge">16 頁</span></a>
+        <a class="rt" href="#pace"><span class="no">04</span><div><h3>AI 近況：Anthropic 的最新量測</h3><p>AI 已主導超過四分之一的研發工作</p></div><span class="badge">3 頁</span></a>
+        <a class="rt" href="#lv"><span class="no">05</span><div><h3>使用 AI 的三個層級</h3><p>下指令 → 接流程 → 養分身</p></div><span class="badge">5 頁</span></a>
+        <a class="rt" href="#sec1"><span class="no">06</span><div><h3>資安提醒</h3><p>原始資料別亂放、權限別亂給</p></div><span class="badge">4 頁</span></a>
+      </div>
+      <div class="card reveal">
+        <h3><svg class="i"><use href="#i-redo"/></svg>每個任務都走同一個循環</h3>
+        <div class="cycle">
+          <div class="cyc"><div class="dot"><svg class="i"><use href="#i-doc"/></svg></div><b>介紹</b><span>為什麼需要</span></div>
+          <div class="cyc"><div class="dot"><svg class="i"><use href="#i-image"/></svg></div><b>範例</b><span>輸入 → 輸出</span></div>
+          <div class="cyc rec"><div class="dot"><svg class="i"><use href="#i-play"/></svg></div><b>實作</b><span>Live Demo</span></div>
+          <div class="cyc"><div class="dot"><svg class="i"><use href="#i-check"/></svg></div><b>回顧</b><span>重點與注意</span></div>
+        </div>
+        <div class="repeat">共 <b>4</b> 個任務，就循環 <b>4</b> 次 · 每次實作完，都回到講義收斂重點</div>
+        <div class="chips mt-s">
+          <span class="chip"><svg class="i"><use href="#i-slides"/></svg>校友問卷 → 簡報</span>
+          <span class="chip"><svg class="i"><use href="#i-mic"/></svg>錄音 → 交流報告</span>
+          <span class="chip"><svg class="i"><use href="#i-globe"/></svg>商工登記 → 資本額查詢</span>
+          <span class="chip"><svg class="i"><use href="#i-chart"/></svg>QS／THE → 儀表板</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================================
+     PART 1 · 對話框 vs Agent
+     ==================================================================== -->
+<section class="slide" id="vs" data-part="01 對話框 vs. Agent" data-title="畫面對比">
+  <div class="slide-inner">
+    <p class="eyebrow reveal">01 · 差異</p>
+    <h2 class="reveal">同樣是 AI，<span class="grad">「聊天」和「做事」</span>完全不同</h2>
+    <div class="g2 mt-s" style="align-items:stretch">
+      <div class="reveal">
+        <div class="compare-head"><h3>AI 對話框</h3><span>Chatbot</span></div>
+        <div class="chat">
+          <div class="chat-bar"><svg class="i"><use href="#i-user"/></svg> 對話視窗 <span class="tag-demo">示意</span></div>
+          <div class="chat-body">
+            <div class="bubble u">幫我把這份 Excel 整理成簡報</div>
+            <div class="bubble a">好的！建議你可以這樣做：
+              <ol><li>先打開 Excel，找出重點欄位</li><li>開啟 PowerPoint，建立 10 頁大綱</li><li>把圖表複製貼上並調整格式…</li></ol>
+            </div>
+          </div>
+        </div>
+        <p class="verdict no"><svg class="i"><use href="#i-doc"/></svg>你拿到「建議」——還是得自己動手</p>
+      </div>
+      <div class="reveal">
+        <div class="compare-head"><h3>AI Agent</h3><span style="color:var(--cyan)">Agent</span></div>
+        <div class="term">
+          <div class="term-bar"><i></i><i></i><i></i><span>agent — 執行中</span><span class="tag-demo">示意</span></div>
+          <div class="term-body" id="vsLog" data-log>
+            <span class="ln"><span class="cy">目標</span> 把 data.xlsx 整理成 10 頁簡報</span>
+            <span class="ln"><span class="ok">✓</span> 讀取檔案　data.xlsx（3 個工作表）</span>
+            <span class="ln"><span class="ok">✓</span> 分析資料　找出 5 個關鍵趨勢</span>
+            <span class="ln"><span class="ok">✓</span> 規劃大綱　10 頁，每頁一個重點</span>
+            <span class="ln"><span class="ok">✓</span> 產生簡報　report.pptx</span>
+            <span class="ln"><span class="warn">!</span> 第 6 頁文字溢出 → <span class="warn">自動調整字級</span></span>
+            <span class="ln"><span class="ok">✓</span> 重新檢查　全部通過</span>
+            <span class="ln" data-d="800"><span class="ok">✔ 完成：已儲存到 桌面/report.pptx</span></span>
+          </div>
+        </div>
+        <p class="verdict yes"><svg class="i"><use href="#i-check"/></svg>你拿到「成品」——只需要驗收
+          <button class="pill-btn replay" data-replay="vsLog" style="margin:0 0 0 auto"><svg class="i"><use href="#i-redo"/></svg><span>重播</span></button></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="diff" data-part="01 對話框 vs. Agent" data-title="五個關鍵差異">
+  <div class="slide-inner">
+    <p class="eyebrow reveal">01 · 差異</p>
+    <h2 class="reveal">五個關鍵差異：<span class="grad">從「回答」到「完成」</span></h2>
+    <div class="cmp reveal mt-s">
+      <div class="h"></div><div class="h">AI 對話框</div><div class="h ag">AI Agent</div>
+      <div class="k">你給它的</div><div class="c">一個問題</div><div class="a">一個目標</div>
+      <div class="k">它交給你的</div><div class="c">一段文字建議</div><div class="a">真正的成品：檔案、網頁、報表</div>
+      <div class="k">誰來動手</div><div class="c">你（複製、貼上、整理）</div><div class="a">它（讀檔、寫程式、存檔）</div>
+      <div class="k">出錯的時候</div><div class="c">你發現，然後再問一次</div><div class="a">它讀錯誤訊息，自己修正重跑</div>
+      <div class="k">你的角色</div><div class="c">操作員</div><div class="a">主管：定義目標、驗收成果</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="loop" data-part="01 對話框 vs. Agent" data-title="Agent 怎麼運作">
+  <div class="slide-inner">
+    <p class="eyebrow reveal">01 · 原理</p>
+    <h2 class="reveal">Agent 是怎麼做事的？<span class="grad">一個會自己轉的迴圈</span></h2>
+    <div class="formula reveal mt-s">
+      <div class="fbox"><svg class="i"><use href="#i-brain"/></svg><h4>大腦</h4><p>大型語言模型：理解、推理、決定下一步</p></div>
+      <div class="op">＋</div>
+      <div class="fbox"><svg class="i"><use href="#i-wrench"/></svg><h4>工具</h4><p>檔案、瀏覽器、程式、Office…真正能動手的「手」</p></div>
+      <div class="op">＋</div>
+      <div class="fbox"><svg class="i"><use href="#i-loop"/></svg><h4>迴圈</h4><p>做 → 看結果 → 修正 → 再做，直到達標</p></div>
+      <div class="op">＝</div>
+      <div class="fbox res"><svg class="i"><use href="#i-bolt"/></svg><h4>AI Agent</h4><p>能把一件事從頭做到尾的 AI</p></div>
+    </div>
+    <div class="loop reveal mt">
+      <div class="lstep"><span class="n">STEP 1</span><h4>理解目標</h4><p>搞清楚你要什麼、要交什麼</p></div>
+      <div class="lstep"><span class="n">STEP 2</span><h4>規劃步驟</h4><p>拆成可執行的小任務</p></div>
+      <div class="lstep core"><span class="n">STEP 3</span><h4>使用工具</h4><p>讀檔、上網、寫程式、存檔</p></div>
+      <div class="lstep core"><span class="n">STEP 4</span><h4>觀察結果</h4><p>成功了嗎？有錯誤訊息嗎？</p></div>
+      <div class="lstep core"><span class="n">STEP 5</span><h4>修正重試</h4><p>根據結果調整，回到步驟 3</p></div>
+      <div class="lstep"><span class="n">STEP 6</span><h4>交付成品</h4><p>通過自我檢查後交給你</p></div>
+      <div class="loopbar-pad"></div>
+      <div class="loopbar">↻ 自動迴圈，直到通過檢查</div>
+      <div class="loopbar-pad r"></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="ask" data-part="01 對話框 vs. Agent" data-title="關鍵：你要驗收">
+  <div class="slide-inner">
+    <p class="eyebrow reveal">01 · 小結</p>
+    <h2 class="reveal">重點不是它多聰明，<br><span class="grad">而是它「碰得到什麼、做得完什麼」</span></h2>
+    <div class="g3 mt">
+      <div class="card reveal"><h3><svg class="i"><use href="#i-doc"/></svg>對話框</h3><p class="lead" style="font-size:1rem">受限於「一問一答」。它再聰明，成果也只停在螢幕上的文字。</p></div>
+      <div class="card hl reveal"><h3><svg class="i"><use href="#i-cpu"/></svg>Agent</h3><p class="lead" style="font-size:1rem">接上工具與電腦後，<b>同一個大腦</b>就能真的去讀檔、跑程式、產出檔案。</p></div>
+      <div class="card reveal"><h3><svg class="i"><use href="#i-shield"/></svg>你的責任</h3><p class="lead" style="font-size:1rem">它能做，不代表都做對。<b>目標要講清楚、成果要驗收</b>，權限由你決定。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================================
+     PART 2 · 思維
+     ==================================================================== -->
+<section class="slide" id="mindset" data-part="02 思維" data-title="電腦能做的，它都能做">
+  <div class="slide-inner">
+    <p class="eyebrow reveal">02 · 思維</p>
+    <h2 class="bigsay reveal" style="margin:.4rem 0 1.4rem">電腦能做的事，<br><span class="grad">Agent 都能做。</span></h2>
+    <div class="wall reveal">
+      <div class="cap"><svg class="i"><use href="#i-folder"/></svg>讀寫檔案</div>
+      <div class="cap"><svg class="i"><use href="#i-globe"/></svg>瀏覽網頁</div>
+      <div class="cap"><svg class="i"><use href="#i-code"/></svg>撰寫程式</div>
+      <div class="cap"><svg class="i"><use href="#i-table"/></svg>操作 Excel</div>
+      <div class="cap"><svg class="i"><use href="#i-mic"/></svg>處理音訊</div>
+      <div class="cap"><svg class="i"><use href="#i-plug"/></svg>呼叫 API</div>
+      <div class="cap"><svg class="i"><use href="#i-slides"/></svg>製作簡報</div>
+      <div class="cap"><svg class="i"><use href="#i-chart"/></svg>產生圖表</div>
+      <div class="cap"><svg class="i"><use href="#i-search"/></svg>搜尋資料</div>
+      <div class="cap"><svg class="i"><use href="#i-term"/></svg>建立網站</div>
+      <div class="cap"><svg class="i"><use href="#i-mail"/></svg>整理信件</div>
+      <div class="cap"><svg class="i"><use href="#i-cal"/></svg>排程自動化</div>
+    </div>
+    <p class="lead reveal mt-s">你的電腦有什麼，它就能用什麼——差別只在於<b>有沒有授權給它</b>。</p>
+  </div>
+</section>
+
+<section class="slide" id="shift" data-part="02 思維" data-title="從「問」到「派」">
+  <div class="slide-inner">
+    <p class="eyebrow reveal">02 · 思維轉換</p>
+    <h2 class="reveal">從「問 AI」，<span class="grad">變成「派 AI」</span></h2>
+    <div class="mt-s">
+      <div class="shift reveal"><div class="from">「這個要怎麼做？」</div><div class="arr">→</div><div class="to">「幫我做完，存到桌面。」</div></div>
+      <div class="shift reveal"><div class="from">「幫我想一份簡報大綱」</div><div class="arr">→</div><div class="to">「把這份資料做成 10 頁簡報 (.pptx)」</div></div>
+      <div class="shift reveal"><div class="from">我整理 AI 給的答案</div><div class="arr">→</div><div class="to">AI 整理，我驗收</div></div>
+    </div>
+    <div class="card hl reveal mt">
+      <h3><svg class="i"><use href="#i-flag"/></svg>一個好任務的四個要素</h3>
+      <div class="chips">
+        <span class="chip solid">目標</span><span class="chip solid">素材</span><span class="chip solid">格式</span><span class="chip solid">完成標準</span>
+      </div>
+      <p class="lead mt-s" style="font-size:1rem">要什麼結果 ＋ 從哪裡取材 ＋ 長什麼樣子 ＋ <b>怎樣算做完</b>。後面的每一場實作，都會照這個公式下指令。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================================
+     PART 3 · 任務 01：資料 → 簡報
+     ==================================================================== -->
+<section class="slide" id="a1" data-part="任務 01 · 問卷報告" data-title="介紹">
+  <div class="slide-inner">
+    <p class="task-no reveal"><b>TASK 01</b><span class="eyebrow" style="letter-spacing:.12em">介紹</span></p>
+    <h2 class="reveal">校友問卷成果報告：<span class="grad">統計數據 → 分析簡報</span></h2>
+    <div class="g2 mt-s">
+      <div class="card bad reveal"><h3><svg class="i"><use href="#i-user"/></svg>過去</h3>
+        <ul class="list"><li>一份一份統計表看，自己找重點、想結論</li><li>圖表逐張製作，母體 n 常被漏標</li><li>簡報和原始資料對不起來，被追問就得翻檔案</li></ul></div>
+      <div class="card hl reveal"><h3><svg class="i"><use href="#i-bolt"/></svg>有了 Agent</h3>
+        <ul class="list plus"><li>讀取資料夾中<b>所有 Excel 檔</b>，針對統計數據提出 <b>insight</b></li><li>選擇適當圖表，標題<b>結論先行</b>（Action Title）</li><li>每張圖表、每個 bar 都標註<b>母體 n</b></li><li>附錄放全部原始資料表，前面每頁都<b>對應到附錄頁</b></li></ul></div>
+    </div>
+    <div class="chips mt-s reveal"><span class="chip"><svg class="i"><use href="#i-table"/></svg>資料夾內所有 Excel</span><span class="chip"><svg class="i"><use href="#i-arrow"/></svg></span><span class="chip solid">分析簡報 PPTX</span></div>
+  </div>
+</section>
+
+<section class="slide" id="a2" data-part="任務 01 · 問卷報告" data-title="範例">
+  <div class="slide-inner">
+    <p class="task-no reveal"><b>TASK 01</b><span class="eyebrow" style="letter-spacing:.12em">範例</span></p>
+    <h2 class="reveal">範例：校友問卷<span class="grad">成果分析簡報</span></h2>
+    <div class="io mt-s reveal">
+      <div class="card"><h4>INPUT · 素材</h4>
+        <div class="file"><svg class="i"><use href="#i-folder"/></svg>資料夾 data/<small>所有 Excel 檔案</small></div>
+        <div class="file"><svg class="i"><use href="#i-table"/></svg>問卷統計表.xlsx<small>次數、比例</small></div>
+        <p class="note mt-s">不需要事先告訴它每份檔案是什麼，它自己讀、自己判斷。</p>
+      </div>
+      <div class="arrow">›</div>
+      <div class="card hl"><h4>AGENT · 過程</h4>
+        <ol class="steps">
+          <li>讀取資料夾中所有 Excel，理解每張統計表</li>
+          <li>針對統計數據提出 insight（趨勢、差異、重點）</li>
+          <li>為每個 insight 選擇適當的圖表</li>
+          <li>標題寫成結論（Action Title）</li>
+          <li>每張圖表、每個 bar 標註母體 n</li>
+          <li class="fix">資料不足或看不懂 → 告訴你，不自行推測</li>
+          <li>製作附錄：全部原始資料表；前面每頁標註對應的附錄頁</li>
+        </ol>
+      </div>
+      <div class="arrow">›</div>
+      <div class="card"><h4>OUTPUT · 成品</h4>
+        <div class="mock">
+          <div class="mock-title">○○ 面向滿意度最高，△△ 仍有進步空間</div>
+          <div class="mock-bars"><div><u style="height:78%"></u><em>n=●●</em></div><div><u style="height:58%"></u><em>n=●●</em></div><div><u style="height:42%"></u><em>n=●●</em></div><div><u style="height:66%"></u><em>n=●●</em></div></div>
+          <div class="mock-ref">▶ 詳見附錄 A-3</div>
+        </div>
+        <div class="mock mt-s">
+          <div class="mock-title" style="border-color:var(--amber)">附錄 A-3　原始資料表</div>
+          <table class="mini-table"><tr><th>項目</th><th>次數</th><th>n</th></tr><tr><td>選項一</td><td>●●</td><td>●●</td></tr><tr><td>選項二</td><td>●●</td><td>●●</td></tr></table>
+        </div>
+        <p class="note mt-s">結論先行＋n 標註＋可回溯附錄 <span class="tag-demo">示意</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide demo" id="a3" data-part="任務 01 · 問卷報告" data-title="現場實作">
+  <div class="slide-inner">
+    <span class="live reveal"><i></i>LIVE DEMO · TASK 01</span>
+    <h2 class="reveal">現場實作：<span class="grad">填答統計 → 成果報告簡報</span></h2>
+    <div class="g2 demo-grid mt-s">
+      <div class="reveal">
+        <div class="term">
+          <div class="term-bar"><i></i><i></i><i></i><span>示範指令（可依現場調整）</span></div>
+          <div class="term-body"><span class="prompt-line" id="pA">我想製作校友問卷調查的分析簡報，要製作專業配色好看，請讀取資料夾中所有excel檔案，針對現有的統計數據提出insight，選擇適當圖表呈現，標題要用結論先行（Action Title），產生成果分析報告簡報（.pptx）。每個圖表都要標註它的母體n，例如長條圖每個bar都有它的n，都要寫上，最後要有附錄把所有的原始資料做成表格放上，前面每頁都要對應到後面附錄頁面；看不懂或資料不足的地方請告訴我，不要自行推測。</span></div>
+        </div>
+        <button class="pill-btn copy" data-copy="#pA"><svg class="i"><use href="#i-copy"/></svg><span>複製指令</span></button>
+      </div>
+      <div class="dod reveal">
+        <div class="card"><h3><svg class="i"><use href="#i-search"/></svg>請大家觀察</h3>
+          <ul class="list check"><li>它提出了哪些 insight？標題是否「結論先行」？</li><li>圖表怎麼選？每個 bar 的 n 有沒有標？</li><li>前面每頁，是否對應到附錄的頁碼？</li></ul></div>
+        <div class="card hl"><h3><svg class="i"><use href="#i-flag"/></svg>完成標準</h3>
+          <ul class="list plus"><li>產出 .pptx，專業配色</li><li>每頁標題是結論（Action Title）</li><li>每張圖表、每個 bar 都標註母體 n</li><li>附錄放全部原始資料表，且前面每頁都對應到附錄頁</li></ul></div>
+        <div class="seclip"><svg class="i"><use href="#i-lock"/></svg><div><b>資安提醒</b>資料夾請只放<b>彙整後的統計表</b>，不放含姓名、Email 的個別填答。附錄會攤開所有原始表格，<b>對外分享前再檢查一次</b>。</div></div>
+      </div>
+    </div>
+    <p class="backhint reveal"><svg class="i"><use href="#i-down"/></svg>Demo 結束後，往下滑回到講義</p>
+  </div>
+</section>
+
+<section class="slide" id="a4" data-part="任務 01 · 問卷報告" data-title="回顧">
+  <div class="slide-inner">
+    <div class="done-mark reveal"><svg class="i"><use href="#i-check"/></svg></div>
+    <p class="task-no reveal"><b>TASK 01</b><span class="eyebrow green" style="letter-spacing:.12em">完成 · 回顧</span></p>
+    <h2 class="reveal">問卷 → 分析簡報：<span class="grad">你帶走什麼？</span></h2>
+    <div class="g3 mt-s">
+      <div class="card reveal"><h3><svg class="i"><use href="#i-list"/></svg>重點</h3><ul class="list"><li>先讓它找 insight，再談版面</li><li>標題寫結論（Action Title），聽眾一眼就懂</li><li>每個數字都標 n、都能追回附錄，被問也不怕</li></ul></div>
+      <div class="card reveal"><h3><svg class="i"><use href="#i-cal"/></svg>什麼時候用</h3><ul class="list"><li>各類問卷成果報告（校友、課程、活動）</li><li>資料夾裡有多份統計表，需要快速找出重點</li><li>需要有憑有據、可回溯的簡報</li></ul></div>
+      <div class="card warn-card reveal"><h3><svg class="i"><use href="#i-warn"/></svg>記得驗收</h3><ul class="list"><li>抽查 insight 是否真的有數據支持</li><li>n 過小的項目，不要過度推論</li><li>附錄含全部原始資料，對外分享前先檢查是否含個資</li></ul></div>
+    </div>
+    <div class="next reveal">下一個 <a class="chip" href="#b1">出國交流錄音 → 依格式撰寫報告 <svg class="i"><use href="#i-arrow"/></svg></a></div>
+  </div>
+</section>
+
+<!-- ====================================================================
+     PART 4 · 任務 02：錄音 → 報告
+     ==================================================================== -->
+<section class="slide" id="b1" data-part="任務 02 · 交流報告" data-title="介紹">
+  <div class="slide-inner">
+    <p class="task-no reveal"><b>TASK 02</b><span class="eyebrow" style="letter-spacing:.12em">介紹</span></p>
+    <h2 class="reveal">出國交流的錄音與照片，<span class="grad">依範本填成報告</span></h2>
+    <div class="g2 mt-s">
+      <div class="card bad reveal"><h3><svg class="i"><use href="#i-user"/></svg>過去</h3>
+        <ul class="list"><li>反覆倒帶、一字一句打逐字稿</li><li>對照上一次的報告範本，逐欄改寫、換照片</li><li>漏掉重點或後續事項，事後才發現</li></ul></div>
+      <div class="card hl reveal"><h3><svg class="i"><use href="#i-bolt"/></svg>有了 Agent</h3>
+        <ul class="list plus"><li>自己呼叫語音轉文字工具，產出逐字稿</li><li>依你既有的<b>報告範本</b>（例如上次的韓國版），逐欄撰寫成新版本</li><li>把<b>現場照片</b>放進對應的欄位</li><li>聽不清楚的地方<b>標註「待確認」</b>，而不是亂猜</li></ul></div>
+    </div>
+    <div class="chips mt-s reveal"><span class="chip"><svg class="i"><use href="#i-mic"/></svg>錄音 M4A · 照片 · 舊版範本 DOCX</span><span class="chip"><svg class="i"><use href="#i-arrow"/></svg></span><span class="chip solid">新版報告 DOCX</span></div>
+    <p class="note reveal mt-s">同樣的做法也適用於：會議紀錄、訪談紀錄、講座摘要、工作坊成果報告⋯⋯（後面回顧頁有更多範例）</p>
+  </div>
+</section>
+
+<section class="slide" id="b2" data-part="任務 02 · 交流報告" data-title="範例">
+  <div class="slide-inner">
+    <p class="task-no reveal"><b>TASK 02</b><span class="eyebrow" style="letter-spacing:.12em">範例</span></p>
+    <h2 class="reveal">範例：QS EduSummit 新加坡 → <span class="grad">出國報告</span></h2>
+    <div class="io mt-s reveal">
+      <div class="card"><h4>INPUT · 素材</h4>
+        <div class="file"><svg class="i"><use href="#i-mic"/></svg>20260604_QS顧問諮詢(1).m4a<small>錄音檔</small></div>
+        <div class="file"><svg class="i"><use href="#i-image"/></svg>現場照片<small>擺攤照片</small></div>
+        <div class="file"><svg class="i"><use href="#i-doc"/></svg>【出國報告】20260119_韓國QS研討會.docx<small>範本</small></div>
+      </div>
+      <div class="arrow">›</div>
+      <div class="card hl"><h4>AGENT · 過程</h4>
+        <ol class="steps">
+          <li>語音轉文字，產生 QS 顧問諮詢的逐字稿</li>
+          <li>讀取韓國版報告，辨識每個欄位</li>
+          <li>整理新加坡行程與討論重點，逐欄撰寫</li>
+          <li>挑選現場照片，放進對應欄位</li>
+          <li class="fix">聽不清楚的校名／人名／數字 → 標註「待確認」</li>
+          <li>輸出新加坡版 Word，保留範本格式</li>
+        </ol>
+      </div>
+      <div class="arrow">›</div>
+      <div class="card"><h4>OUTPUT · 成品</h4>
+        <div class="doc">
+          <h5>【出國報告】2026 QS EduSummit（新加坡）</h5>
+          <p><strong>出國目的</strong>　參與 QS EduSummit 並設攤交流</p>
+          <div class="ph">現場照片</div>
+          <p><strong>交流內容</strong>　與 <span class="flag">○○大學（待確認）</span> 討論⋯⋯</p>
+          <p><strong>心得與建議</strong>　建議持續參與⋯⋯</p>
+        </div>
+        <p class="note mt-s">沿用韓國版欄位，改寫成新加坡版 <span class="tag-demo">示意</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide demo" id="b3" data-part="任務 02 · 交流報告" data-title="現場實作">
+  <div class="slide-inner">
+    <span class="live reveal"><i></i>LIVE DEMO · TASK 02</span>
+    <h2 class="reveal">現場實作：<span class="grad">錄音 → 出國交流報告</span></h2>
+    <div class="g2 demo-grid mt-s">
+      <div class="reveal">
+        <div class="term">
+          <div class="term-bar"><i></i><i></i><i></i><span>示範指令（可依現場調整）</span></div>
+          <div class="term-body"><span class="prompt-line" id="pB">我在6月時與副校長及國際處同仁參與2026 QS EduSummit in Singapore進行擺攤，請把 20260604_QS顧問諮詢(1).m4a 轉成逐字稿，結合裡面的照片並依照我的template【出國報告】20260119_韓國QS研討會.docx 逐欄撰寫輸出成新加坡版本的word檔案。聽不清楚或不確定的校名、人名、數字，請標註「待確認」，不要自行編造。</span></div>
+        </div>
+        <button class="pill-btn copy" data-copy="#pB"><svg class="i"><use href="#i-copy"/></svg><span>複製指令</span></button>
+      </div>
+      <div class="dod reveal">
+        <div class="card"><h3><svg class="i"><use href="#i-search"/></svg>請大家觀察</h3>
+          <ul class="list check"><li>它怎麼把照片放進報告的對應段落？</li><li>它怎麼「對照範本」，把韓國版改寫成新加坡版？</li><li>聽不清楚的地方有沒有標註「待確認」？</li></ul></div>
+        <div class="card hl"><h3><svg class="i"><use href="#i-flag"/></svg>完成標準</h3>
+          <ul class="list plus"><li>輸出 Word，欄位與範本一致（新加坡版）</li><li>照片放在合適的欄位</li><li>校名、人名、數字不確定處標「待確認」，不編造</li></ul></div>
+        <div class="seclip"><svg class="i"><use href="#i-lock"/></svg><div><b>資安提醒</b>錄音與照片含<b>人物與內部討論</b>，先確認可否使用；對外分享前，再檢查逐字稿中的人名與照片。</div></div>
+      </div>
+    </div>
+    <p class="backhint reveal"><svg class="i"><use href="#i-down"/></svg>Demo 結束後，往下滑回到講義</p>
+  </div>
+</section>
+
+<section class="slide" id="b4" data-part="任務 02 · 交流報告" data-title="回顧">
+  <div class="slide-inner">
+    <div class="done-mark reveal"><svg class="i"><use href="#i-check"/></svg></div>
+    <p class="task-no reveal"><b>TASK 02</b><span class="eyebrow green" style="letter-spacing:.12em">完成 · 回顧</span></p>
+    <h2 class="reveal">錄音 → 報告：<span class="grad">你帶走什麼？</span></h2>
+    <div class="g3 mt-s">
+      <div class="card reveal"><h3><svg class="i"><use href="#i-list"/></svg>重點</h3><ul class="list"><li>「格式範本」是關鍵：給它樣子，它就照填</li><li>Agent 會自己找工具處理音訊</li><li>要求它標註不確定處，比要求「都正確」更可靠</li></ul></div>
+      <div class="card hl reveal"><h3><svg class="i"><use href="#i-sparkle"/></svg>其他使用範例</h3>
+        <ul class="list plus">
+          <li><b>會議紀錄</b>：摘要、決議、待辦（負責人／期限）</li>
+          <li><b>訪談逐字稿</b> → 訪談摘要與主題歸納</li>
+          <li><b>講座／研討會</b> → 心得與重點整理</li>
+          <li><b>活動、工作坊錄音</b> → 成果報告</li>
+          <li><b>出差／參訪紀錄</b> → 依格式的出差報告</li>
+        </ul></div>
+      <div class="card warn-card reveal"><h3><svg class="i"><use href="#i-lock"/></svg>隱私與驗收</h3><ul class="list"><li>錄音含個資與內部討論，先確認可否使用</li><li>人名、數字、日期務必人工抽查</li><li>正式文件送出前，由你最終確認</li></ul></div>
+    </div>
+    <div class="next reveal">下一個 <a class="chip" href="#c1">公司登記狀態與資本額查詢 <svg class="i"><use href="#i-arrow"/></svg></a></div>
+  </div>
+</section>
+
+<!-- ====================================================================
+     PART 5 · 任務 03：線上資料 + 自有資料 + 統計
+     ==================================================================== -->
+<section class="slide" id="c1" data-part="任務 03 · 商工登記" data-title="介紹">
+  <div class="slide-inner">
+    <p class="task-no reveal"><b>TASK 03</b><span class="eyebrow" style="letter-spacing:.12em">介紹</span></p>
+    <h2 class="reveal">批次查詢公司登記狀態，<span class="grad">並找出資本額</span></h2>
+    <div class="g2 mt-s">
+      <div class="card bad reveal"><h3><svg class="i"><use href="#i-user"/></svg>過去</h3>
+        <ul class="list"><li>一筆一筆輸入公司名稱到網站查詢</li><li>把登記狀態、資本額複製貼上到 Excel</li><li>網站有擋、資料來源不一，過程零散難追溯</li></ul></div>
+      <div class="card hl reveal"><h3><svg class="i"><use href="#i-bolt"/></svg>有了 Agent</h3>
+        <ul class="list plus"><li>依名單的<b>公司名稱欄位</b>，逐筆上網搜尋</li><li>判斷是否為「核准設立」；<b>解散、撤銷、查無</b>明確標記</li><li>找出資本總額／實收資本額</li><li>整理成乾淨的 Excel，<b>附上資料來源網址</b>；被擋就換其他資料來源</li></ul></div>
+    </div>
+    <div class="chips mt-s reveal"><span class="chip"><svg class="i"><use href="#i-table"/></svg>我的名單 XLSX</span><span class="chip">＋</span><span class="chip"><svg class="i"><use href="#i-globe"/></svg>網路搜尋（經濟部商工登記等）</span><span class="chip"><svg class="i"><use href="#i-arrow"/></svg></span><span class="chip solid">乾淨 Excel（含資料來源）</span></div>
+  </div>
+</section>
+
+<section class="slide" id="c2" data-part="任務 03 · 商工登記" data-title="範例">
+  <div class="slide-inner">
+    <p class="task-no reveal"><b>TASK 03</b><span class="eyebrow" style="letter-spacing:.12em">範例</span></p>
+    <h2 class="reveal">範例：公司名稱 → <span class="grad">是否核准設立與資本額</span></h2>
+    <div class="io mt-s reveal">
+      <div class="card"><h4>INPUT · 素材</h4>
+        <div class="file"><svg class="i"><use href="#i-table"/></svg>在台且有就業_0920_2026.xlsx<small>問卷名單</small></div>
+        <div class="file"><svg class="i"><use href="#i-globe"/></svg>網路搜尋<small>經濟部商工登記等</small></div>
+        <table class="mini-table mt-s">
+          <tr><th>公司名稱欄位</th></tr>
+          <tr><td>○○科技股份有限公司</td></tr>
+          <tr><td>△△國際有限公司</td></tr>
+          <tr><td>□□企業</td></tr>
+        </table>
+      </div>
+      <div class="arrow">›</div>
+      <div class="card hl"><h4>AGENT · 過程</h4>
+        <ol class="steps">
+          <li>讀取名單的公司名稱欄位</li>
+          <li>逐筆搜尋「經濟部商工登記 ＋ 公司名稱」</li>
+          <li>檢查登記狀態：<b>核准設立</b>才算經濟部認可</li>
+          <li class="fix">解散、撤銷、查無 → 明確標記；被擋 → 換其他來源</li>
+          <li>找出資本總額／實收資本額</li>
+          <li>整理成 Excel，每筆附資料來源網址</li>
+        </ol>
+      </div>
+      <div class="arrow">›</div>
+      <div class="card"><h4>OUTPUT · 成品</h4>
+        <div class="doc xl">
+          <table><tr><th>公司名稱</th><th>經濟部認可</th><th>資本額</th><th>來源</th></tr>
+            <tr><td>○○科技</td><td class="okc">✓ 核准設立</td><td>●●●</td><td>網址</td></tr>
+            <tr><td>△△國際</td><td class="noc">✗ 解散</td><td>—</td><td>網址</td></tr>
+            <tr><td>□□企業</td><td class="qmc">？ 查無</td><td>—</td><td>網址</td></tr></table>
+        </div>
+        <p class="note mt-s">四個欄位，每筆都能回頭抽查 <span class="tag-demo">示意數據</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide demo" id="c3" data-part="任務 03 · 商工登記" data-title="現場實作">
+  <div class="slide-inner">
+    <span class="live reveal"><i></i>LIVE DEMO · TASK 03</span>
+    <h2 class="reveal">現場實作：<span class="grad">查詢公司登記狀態與資本額</span></h2>
+    <div class="g2 demo-grid mt-s">
+      <div class="reveal">
+        <div class="term">
+          <div class="term-bar"><i></i><i></i><i></i><span>示範指令（可依現場調整）</span></div>
+          <div class="term-body"><span class="prompt-line" id="pC">請幫我台灣公司，目標是看是否為經濟部核准設立的公司，並查出它們的「資本額」。
+依 在台且有就業_0920_2026.xlsx 中的{Please enter the full name of your company/organization}欄位逐筆搜尋
+1. 請使用你的網路搜尋工具，去搜尋「經濟部商工登記 [公司名稱]」或相關的台灣官方/第三方公司資料庫。
+2. 檢查該公司的登記狀態，如果是「核准設立」才算經濟部認可。如果是解散、撤銷或查無，請明確標記。
+3. 找出該公司的「資本總額」或「實收資本額」。
+4. 請幫我將查詢結果整理成一個乾淨的excel，欄位包含：公司名稱、是否為經濟部認可、資本額、資料來源(附上查詢網址)。
+如果有被擋，找那種不會被擋的網站。</span></div>
+        </div>
+        <button class="pill-btn copy" data-copy="#pC"><svg class="i"><use href="#i-copy"/></svg><span>複製指令</span></button>
+      </div>
+      <div class="dod reveal">
+        <div class="card"><h3><svg class="i"><use href="#i-search"/></svg>請大家觀察</h3>
+          <ul class="list check"><li>它用什麼工具去查？被擋時怎麼換方法？</li><li>它怎麼判斷「核准設立」，與解散、撤銷、查無？</li><li>每一筆有沒有附上資料來源網址？</li></ul></div>
+        <div class="card hl"><h3><svg class="i"><use href="#i-flag"/></svg>完成標準</h3>
+          <ul class="list plus"><li>Excel 四個欄位：公司名稱、是否為經濟部認可、資本額、資料來源（網址）</li><li>解散、撤銷、查無的，明確標記</li><li>每一筆都附查詢網址，方便抽查</li></ul></div>
+        <div class="seclip"><svg class="i"><use href="#i-lock"/></svg><div><b>資安提醒</b>只拿<b>公司名稱</b>去查，名單中的聯絡人等個資欄位不要送出。第三方網站的資料可能過時，<b>登記狀態與資本額請抽查回官方網站確認</b>；遇到驗證碼由人操作。</div></div>
+      </div>
+    </div>
+    <p class="backhint reveal"><svg class="i"><use href="#i-down"/></svg>Demo 結束後，往下滑回到講義</p>
+  </div>
+</section>
+
+<section class="slide" id="c4" data-part="任務 03 · 商工登記" data-title="回顧">
+  <div class="slide-inner">
+    <div class="done-mark reveal"><svg class="i"><use href="#i-check"/></svg></div>
+    <p class="task-no reveal"><b>TASK 03</b><span class="eyebrow green" style="letter-spacing:.12em">完成 · 回顧</span></p>
+    <h2 class="reveal">批次查詢登記狀態：<span class="grad">你帶走什麼？</span></h2>
+    <div class="g3 mt-s">
+      <div class="card reveal"><h3><svg class="i"><use href="#i-list"/></svg>重點</h3><ul class="list"><li>逐筆搜尋、判斷、整理，一氣呵成</li><li>「解散、撤銷、查無」比「核准設立」更值得看</li><li>每筆附資料來源網址，才能抽查、可回溯</li></ul></div>
+      <div class="card reveal"><h3><svg class="i"><use href="#i-cal"/></svg>什麼時候用</h3><ul class="list"><li>確認合作、實習、校友任職單位的背景</li><li>名單需要定期更新與確認</li><li>要從一長串名稱中，篩出有效的公司</li></ul></div>
+      <div class="card warn-card reveal"><h3><svg class="i"><use href="#i-warn"/></svg>注意事項</h3><ul class="list"><li>第三方網站的資料可能過時，關鍵筆數請抽查回官方網站</li><li>遵守網站使用條款；遇到驗證碼由人操作</li><li>只送公司名稱去查，名單中的個資欄位不要送出</li></ul></div>
+    </div>
+    <div class="next reveal">下一個 <a class="chip" href="#d1">QS／THE 排名 → 查詢比較儀表板 <svg class="i"><use href="#i-arrow"/></svg></a></div>
+  </div>
+</section>
+
+<!-- ====================================================================
+     PART 6 · 任務 04：儀表板與查詢系統
+     ==================================================================== -->
+<section class="slide" id="d1" data-part="任務 04 · 排名儀表板" data-title="介紹">
+  <div class="slide-inner">
+    <p class="task-no reveal"><b>TASK 04</b><span class="eyebrow" style="letter-spacing:.12em">介紹</span></p>
+    <h2 class="reveal">歷年 QS、THE 排名，<span class="grad">做成可查詢、可比較的儀表板</span></h2>
+    <div class="g2 mt-s">
+      <div class="card bad reveal"><h3><svg class="i"><use href="#i-user"/></svg>過去</h3>
+        <ul class="list"><li>每年一份檔案，兩套排名的格式與指標都不同</li><li>要比較學校，得手動整理成同一張表</li><li>找一所學校的歷年變化，只能 Ctrl＋F</li></ul></div>
+      <div class="card hl reveal"><h3><svg class="i"><use href="#i-bolt"/></svg>有了 Agent</h3>
+        <ul class="list plus"><li>讀取多年份、兩種排名的檔案，<b>整合成統一格式</b></li><li>不同年份的學校名稱寫法，自動對照</li><li>做出<b>搜尋、切換年度、多校比較</b>的網頁</li><li>單一 HTML 檔，瀏覽器直接開；資料更新就重跑</li></ul></div>
+    </div>
+    <div class="chips mt-s reveal"><span class="chip"><svg class="i"><use href="#i-table"/></svg>QS ＋ THE 歷年 XLSX</span><span class="chip"><svg class="i"><use href="#i-arrow"/></svg></span><span class="chip solid">查詢＋比較儀表板 HTML</span></div>
+  </div>
+</section>
+
+<section class="slide" id="d2" data-part="任務 04 · 排名儀表板" data-title="範例">
+  <div class="slide-inner">
+    <p class="task-no reveal"><b>TASK 04</b><span class="eyebrow" style="letter-spacing:.12em">範例</span></p>
+    <h2 class="reveal">範例：<span class="grad">世界大學排名查詢與比較</span></h2>
+    <div class="dash reveal mt-s">
+      <div class="dash-bar"><span class="dot" style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block"></span>排名儀表板
+        <span class="tabs"><b class="on">QS</b><b>THE</b><b>兩者對照</b></span><span class="tag-demo">示意畫面</span></div>
+      <div class="dash-body">
+        <div class="pick">
+          <div class="search"><svg class="i"><use href="#i-search"/></svg><span class="caret">搜尋學校…</span></div>
+          <span class="tag b">學校 A ✕</span><span class="tag g">學校 B ✕</span><span class="tag">＋ 加入比較</span>
+          <span class="yrs">年度 2022 – 2026</span>
+        </div>
+        <div class="dash-mid">
+          <div class="card" style="padding:14px 16px"><small class="dim">歷年排名趨勢（越上方名次越前面）</small>
+            <svg class="trend" viewBox="0 0 360 150" role="img" aria-label="兩所學校的歷年排名趨勢示意圖">
+              <g stroke="currentColor" stroke-opacity=".14"><path d="M30 20H340M30 55H340M30 90H340M30 125H340"/></g>
+              <g fill="currentColor" fill-opacity=".55" font-size="10" text-anchor="middle"><text x="40" y="145">2022</text><text x="112" y="145">2023</text><text x="185" y="145">2024</text><text x="257" y="145">2025</text><text x="330" y="145">2026</text></g>
+              <polyline class="line" pathLength="1" fill="none" stroke="var(--cyan)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="40,100 112,88 185,74 257,62 330,44"/>
+              <polyline class="line" pathLength="1" fill="none" stroke="var(--violet)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="40,58 112,70 185,64 257,84 330,92"/>
+              <g fill="var(--cyan)"><circle cx="40" cy="100" r="3.5"/><circle cx="112" cy="88" r="3.5"/><circle cx="185" cy="74" r="3.5"/><circle cx="257" cy="62" r="3.5"/><circle cx="330" cy="44" r="3.5"/></g>
+              <g fill="var(--violet)"><circle cx="40" cy="58" r="3.5"/><circle cx="112" cy="70" r="3.5"/><circle cx="185" cy="64" r="3.5"/><circle cx="257" cy="84" r="3.5"/><circle cx="330" cy="92" r="3.5"/></g>
+            </svg></div>
+          <div class="card" style="padding:14px 16px"><small class="dim">指標對照（2026）</small>
+            <table class="mini-table" style="margin-top:6px"><tr><th>指標</th><th>學校 A</th><th>學校 B</th></tr>
+              <tr><td>總體排名</td><td class="hit">#350</td><td>#420</td></tr>
+              <tr><td>教學</td><td>48.2</td><td class="hit">52.6</td></tr>
+              <tr><td>研究</td><td class="hit">61.0</td><td>55.3</td></tr>
+              <tr><td>國際化</td><td class="hit">70.4</td><td>66.8</td></tr></table></div>
+        </div>
+      </div>
+    </div>
+    <p class="lead reveal mt-s" style="font-size:1rem"><b>搜尋</b>找學校 · <b>切換</b>QS／THE 與年度 · <b>勾選多校</b>看趨勢與指標比較。（學校與數字皆為示意）</p>
+  </div>
+</section>
+
+<section class="slide demo" id="d3" data-part="任務 04 · 排名儀表板" data-title="現場實作">
+  <div class="slide-inner">
+    <span class="live reveal"><i></i>LIVE DEMO · TASK 04</span>
+    <h2 class="reveal">現場實作：<span class="grad">QS／THE 排名 → 查詢比較儀表板</span></h2>
+    <div class="g2 demo-grid mt-s">
+      <div class="reveal">
+        <div class="term">
+          <div class="term-bar"><i></i><i></i><i></i><span>示範指令（可依現場調整）</span></div>
+          <div class="term-body"><span class="prompt-line" id="pD">請把 data/ 裡歷年的 QS 與 THE 世界大學排名檔案（xlsx）整合成統一格式，做成單一 HTML 儀表板：可切換排名系統（QS／THE）與年度、可搜尋學校，並能勾選多所學校進行比較（歷年排名趨勢線圖＋各項指標對照表）。要能直接用瀏覽器開啟。不同年份的學校名稱寫法不一致時，請自行對照，並列出對照表給我確認。</span></div>
+        </div>
+        <button class="pill-btn copy" data-copy="#pD"><svg class="i"><use href="#i-copy"/></svg><span>複製指令</span></button>
+      </div>
+      <div class="dod reveal">
+        <div class="card"><h3><svg class="i"><use href="#i-search"/></svg>請大家觀察</h3>
+          <ul class="list check"><li>它怎麼把兩套排名整合成統一格式？</li><li>學校名稱不一致時，它怎麼對照？</li><li>做完後，我們怎麼「追問」加功能？</li></ul></div>
+        <div class="card hl"><h3><svg class="i"><use href="#i-flag"/></svg>完成標準</h3>
+          <ul class="list plus"><li>單一 .html，雙擊即可開啟</li><li>搜尋、切換年度、多校比較都能運作</li><li>抽查數字（3 所學校 × 2 個年度）與原始檔一致</li></ul></div>
+        <div class="seclip"><svg class="i"><use href="#i-lock"/></svg><div><b>資安提醒</b>有<b>授權限制的資料</b>（例如需登入下載的資料庫）只限內部使用，<b>不要部署到公開網站</b>；公開版只放公開資料。</div></div>
+      </div>
+    </div>
+    <p class="backhint reveal"><svg class="i"><use href="#i-down"/></svg>Demo 結束後，往下滑回到講義</p>
+  </div>
+</section>
+
+<section class="slide" id="d4" data-part="任務 04 · 排名儀表板" data-title="回顧">
+  <div class="slide-inner">
+    <div class="done-mark reveal"><svg class="i"><use href="#i-check"/></svg></div>
+    <p class="task-no reveal"><b>TASK 04</b><span class="eyebrow green" style="letter-spacing:.12em">完成 · 回顧</span></p>
+    <h2 class="reveal">排名 → 儀表板：<span class="grad">你帶走什麼？</span></h2>
+    <div class="g3 mt-s">
+      <div class="card reveal"><h3><svg class="i"><use href="#i-list"/></svg>重點</h3><ul class="list"><li>「統一格式」是關鍵：先整合，才能比較</li><li>儀表板 ＝ 查詢 ＋ 比較，做完還能繼續追問調整</li><li>單一 HTML，可分享、可部署</li></ul></div>
+      <div class="card reveal"><h3><svg class="i"><use href="#i-cal"/></svg>什麼時候用</h3><ul class="list"><li>標竿學校、同儕比較</li><li>績效指標的長期追蹤</li><li>簡報前快速查詢與截圖</li></ul></div>
+      <div class="card warn-card reveal"><h3><svg class="i"><use href="#i-lock"/></svg>公開前先想</h3><ul class="list"><li>授權資料、含個資或內部資料，不要公開部署</li><li>先閱讀排名資料的使用條款，再決定可否公開</li><li>對照原始檔驗證關鍵數字；資料更新時，重跑同一套流程</li></ul></div>
+    </div>
+    <div class="next reveal">下一個 <a class="chip" href="#pace">接著看：AI 進步得有多快？ <svg class="i"><use href="#i-arrow"/></svg></a></div>
+  </div>
+</section>
+
+<!-- ====================================================================
+     PART 7 · AI 近況（Anthropic 報告）
+     ==================================================================== -->
+<section class="slide" id="pace" data-part="04 AI 近況" data-title="為什麼是現在">
+  <div class="slide-inner">
+    <p class="eyebrow reveal">04 · AI 近況</p>
+    <h2 class="reveal">AI 進步有多快？<br><span class="grad">看實驗室自己公開的數字</span></h2>
+    <div class="source reveal mt-s"><svg class="i"><use href="#i-doc"/></svg>
+      <span><b>Anthropic</b>〈Measurements for understanding the pace of AI development inside frontier labs〉（2026）</span>
+      <a class="chip" href="https://www.anthropic.com/institute/measuring-pace-of-ai-development" target="_blank" rel="noopener">閱讀原文 <svg class="i"><use href="#i-ext"/></svg></a></div>
+    <p class="lead reveal mt-s" style="font-size:1rem">這份報告提出三項「讓大眾能追蹤 AI 開發速度」的量測方式，並公布了 Anthropic 內部 2026 年 7–8 月的實際數據。今天只挑最貼近 Agent 的一項：</p>
+    <div class="card hl mcard reveal mt-s"><span class="no">MEASURE 01</span><h3>AI 主導的 AI 研發</h3><span class="en">Measuring AI-led AI R&amp;D</span><p>AI 在研發工作中，已經負責到多大的比例？</p></div>
+    <p class="note reveal mt-s">報告的另外兩項是「Agent 的監督機制」與「算力的分配」，本次分享略過，有興趣請閱讀原文。</p>
+  </div>
+</section>
+
+<section class="slide" id="p1" data-part="04 AI 近況" data-title="AI 主導 26% 的研發">
+  <div class="slide-inner">
+    <p class="eyebrow reveal">Measure 01 · AI-led R&amp;D</p>
+    <div class="g2" style="align-items:center;gap:clamp(24px,4vw,64px)">
+      <div>
+        <div class="big grad reveal"><span data-count="26">26</span><small>%</small></div>
+        <p class="stat-cap reveal">Anthropic 的 AI 研發工作，已由 Claude <b style="color:var(--ink)">「主導」</b>的比例（2026 年 8 月）</p>
+        <div class="cmpbars mt-s reveal">
+          <div class="cbar"><div class="lbl"><span>2026 年 2 月</span><span>不到 1%</span></div><div class="tr"><i style="--w:1.5%"></i></div></div>
+          <div class="cbar now"><div class="lbl"><span>2026 年 8 月</span><span>26%</span></div><div class="tr"><i style="--w:26%"></i></div></div>
+        </div>
+        <p class="note reveal mt-s">數據由 Anthropic 自行量測、自行公布；報告也提醒需要第三方驗證。</p>
+      </div>
+      <div class="reveal">
+        <div class="card">
+          <h3><svg class="i"><use href="#i-loop"/></svg>自動化等級 AL0 → AL5</h3>
+          <div class="al">
+            <div><b>AL0</b>無 AI 參與</div>
+            <div class="mid"><b>AL1</b>…</div>
+            <div class="mid"><b>AL2</b>…</div>
+            <div class="on"><b>AL3</b>AI 協作<br>大段工作、人緊盯</div>
+            <div class="on"><b>AL4</b>AI 主導<br>高階指令 → 端到端</div>
+            <div><b>AL5</b>完全自主</div>
+          </div>
+          <p class="note mt-s">AL4 的意思：給高階指令，AI 完成大部分工作，人負責監督——這正是我們今天在談的 Agent。</p>
+        </div>
+        <div class="facts mt-s">
+          <div class="fact"><b>&gt;90%</b><span>工作達到「AI 協作」以上</span></div>
+          <div class="fact"><b>~15,000</b><span>2026 年 7 月抽樣的研發任務</span></div>
+          <div class="fact"><b>0</b><span>被量測的子領域達到「完全自主」</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<section class="slide" id="p4" data-part="04 AI 近況" data-title="對我們的意義">
+  <div class="slide-inner">
+    <p class="eyebrow reveal">So what?</p>
+    <h2 class="reveal">這個數字，<span class="grad">跟我們有什麼關係？</span></h2>
+    <div class="g3 mt-s">
+      <div class="card hl reveal"><div class="closing-num">1</div><h3>Agent 已經是日常，不是實驗</h3><p class="lead" style="font-size:1rem;margin-top:8px">連最前線的實驗室，都讓 Agent 主導超過四分之一的研發工作，且 6 個月內從不到 1% 上升。</p></div>
+      <div class="card reveal"><div class="closing-num">2</div><h3>人的角色在移動</h3><p class="lead" style="font-size:1rem;margin-top:8px">從「動手做」移向「定義目標、設定標準、驗收成果」。AL4 的關鍵字就是：人負責監督。</p></div>
+      <div class="card warn-card reveal"><div class="closing-num">3</div><h3>越自主，越要有把關</h3><p class="lead" style="font-size:1rem;margin-top:8px">Agent 能做的事越多，出錯或被誤導的代價也越大。所以我們最後要談<b>資安</b>。</p></div>
+    </div>
+    <p class="note reveal mt-s">報告呼籲縮小「實驗室知道的」與「大眾知道的」之間的落差——這也是今天分享的初衷。</p>
+  </div>
+</section>
+
+<!-- ====================================================================
+     PART 8 · 三個層級
+     ==================================================================== -->
+<section class="slide" id="lv" data-part="05 三個層級" data-title="三個層級總覽">
+  <div class="slide-inner">
+    <p class="eyebrow reveal">05 · 使用 AI 的三個層級</p>
+    <h2 class="reveal">你用 AI 的方式，<span class="grad">決定你得到多少</span></h2>
+    <div class="ladder mt-s">
+      <div class="rung r1 reveal" style="--h:230px"><span class="lv">1</span><h3>下指令</h3><p>把 AI 當問答機。產出零散，得<b>自己手動拼湊</b>。</p><span class="role">你的角色 · 操作員</span></div>
+      <div class="rung r2 reveal" style="--h:310px"><span class="lv">2</span><h3>接流程</h3><p>串聯重複的步驟，但<b>中間每一步仍要人看顧、確認</b>。</p><span class="role">你的角色 · 監工</span></div>
+      <div class="rung r3 reveal" style="--h:390px"><span class="go">↗ 目標</span><span class="lv">3</span><h3>養分身</h3><p>把<b>你的資料、判斷標準、語氣、做事順序</b>交給 AI，讓它獨立完成一件完整的工作。</p><span class="role">你的角色 · 主管</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="lv1" data-part="05 三個層級" data-title="第一層：下指令">
+  <div class="slide-inner">
+    <p class="eyebrow reveal">Level 1</p>
+    <h2 class="reveal"><span class="grad">第一層：下指令</span>——AI 是問答機</h2>
+    <div class="g2 mt-s">
+      <div class="card reveal">
+        <h3><svg class="i"><use href="#i-user"/></svg>它長這樣</h3>
+        <ul class="list"><li>一次問一個問題，得到一段回答</li><li>結果零散：這邊一段、那邊一段</li><li>你負責複製、貼上、<b>手動拼湊</b>成成品</li></ul>
+        <div class="chips mt-s"><span class="chip">問 → 答 → 複製 → 貼上</span><span class="chip">再問 → 再貼</span></div>
+      </div>
+      <div class="card reveal">
+        <h3><svg class="i"><use href="#i-flag"/></svg>適合與天花板</h3>
+        <ul class="list plus"><li>查詢、發想、一次性的小任務</li></ul>
+        <ul class="list"><li>天花板：<b>你就是瓶頸</b>——AI 再快，還是要等你搬運</li></ul>
+        <p class="note mt-s">這一層很有用，但只是起點。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="lv2" data-part="05 三個層級" data-title="第二層：接流程（互動）">
+  <div class="slide-inner">
+    <p class="eyebrow reveal">Level 2</p>
+    <h2 class="reveal"><span class="grad">第二層：接流程</span>——你點頭了幾次？</h2>
+    <p class="lead reveal">串起重複步驟很好，但要檢查一件事：<b>若一條流程中，點頭確認超過兩次，代表仍是人在跑流程。</b></p>
+    <div class="pipe reveal mt-s" id="pipe">
+      <div class="pnode"><b>① 蒐集資料</b><small>抓取、匯入</small><button class="gate" aria-pressed="true"><svg class="i"><use href="#i-user"/></svg><span></span></button></div>
+      <div class="pnode"><b>② 整理清洗</b><small>去重、補欄位</small><button class="gate" aria-pressed="true"><svg class="i"><use href="#i-user"/></svg><span></span></button></div>
+      <div class="pnode"><b>③ 分析統計</b><small>算指標、畫圖</small><button class="gate" aria-pressed="true"><svg class="i"><use href="#i-user"/></svg><span></span></button></div>
+      <div class="pnode"><b>④ 撰寫報告</b><small>依格式產出</small><button class="gate" aria-pressed="false"><svg class="i"><use href="#i-user"/></svg><span></span></button></div>
+      <div class="pnode"><b>⑤ 排版輸出</b><small>存檔、寄出</small><button class="gate" aria-pressed="true"><svg class="i"><use href="#i-user"/></svg><span></span></button></div>
+    </div>
+    <div class="meter reveal mt-s">
+      <div class="cnt" id="pipeCount">4<small>次點頭</small></div>
+      <div class="vd" id="pipeVerdict" aria-live="polite"></div>
+    </div>
+    <p class="note reveal mt-s">👆 試試看：點選每個步驟的按鈕，切換「需要我確認」或「AI 自己判斷」。</p>
+  </div>
+</section>
+
+<section class="slide" id="lv3" data-part="05 三個層級" data-title="第三層：養分身">
+  <div class="slide-inner">
+    <p class="eyebrow reveal">Level 3</p>
+    <h2 class="reveal"><span class="grad">第三層：養分身</span>——交出去，就是它的事</h2>
+    <p class="lead reveal">把「你是怎麼做這件事的」教給 AI，讓它能獨立處理一件完整的工作。要交給它四樣東西：</p>
+    <div class="ing mt-s reveal">
+      <div class="card"><svg class="i"><use href="#i-db"/></svg><h4>你的資料</h4><p>它才有素材，不必每次重講背景</p></div>
+      <div class="card"><svg class="i"><use href="#i-flag"/></svg><h4>判斷標準</h4><p>什麼算好、什麼要退回、什麼要問你</p></div>
+      <div class="card"><svg class="i"><use href="#i-mail"/></svg><h4>語氣</h4><p>寫出來像你，而不是像機器人</p></div>
+      <div class="card"><svg class="i"><use href="#i-list"/></svg><h4>做事順序</h4><p>你的 SOP：先做什麼、再做什麼</p></div>
+    </div>
+    <p class="lead reveal mt-s" style="font-size:1rem">而它能獨立處理的，是具備這三個條件的完整工作：</p>
+    <div class="tri reveal mt-s">
+      <div><b>START</b><h4>明確的開頭</h4><p>什麼事件、什麼資料觸發它開始</p></div>
+      <div><b>JUDGE</b><h4>中間的判斷</h4><p>遇到岔路，它依你的標準自己決定</p></div>
+      <div><b>DONE</b><h4>明確的完成標準</h4><p>怎樣算做完，它自己就能檢查</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="path" data-part="05 三個層級" data-title="怎麼往上走">
+  <div class="slide-inner">
+    <p class="eyebrow reveal">Next step</p>
+    <h2 class="reveal">從第一層走到第三層，<span class="grad">下一步是什麼？</span></h2>
+    <div class="path mt-s">
+      <div class="hop reveal"><span class="lv">第一層<br>→ 第二層</span><div><h4>找出你「每週重複三次以上」的事</h4><p>把它拆成步驟，讓 AI 一次串完，不要每一步都回來問你。</p></div></div>
+      <div class="hop reveal"><span class="lv">第二層<br>→ 第三層</span><div><h4>把「你怎麼判斷」寫下來</h4><p>把標準、語氣、順序寫成文件；再補上一句話的「完成標準」，讓 AI 自己驗收。</p></div></div>
+      <div class="hop reveal" style="border-color:rgba(34,211,238,.45);background:var(--card-hl)"><span class="lv">今天的<br>四個任務</span><div><h4>都可以升級成第三層</h4><p>例如「每月固定：撈資料 → 合併 → 統計 → 做成簡報」——你只在最後驗收。</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================================
+     PART 9 · 資安提醒
+     ==================================================================== -->
+<section class="slide" id="sec1" data-part="06 資安提醒" data-title="Agent 越能幹，越要小心">
+  <div class="slide-inner">
+    <p class="eyebrow amber reveal">06 · 資安提醒</p>
+    <h2 class="reveal">Agent 越能幹，<span class="grad">資安越重要</span></h2>
+    <div class="g2 mt-s">
+      <div class="card reveal"><h3><svg class="i"><use href="#i-doc"/></svg>對話框：只能「說」</h3>
+        <ul class="list"><li>它只看得到你貼上去的內容</li><li>風險 ＝ 你貼了什麼</li><li>貼上的內容，會離開你的電腦</li></ul></div>
+      <div class="card hl reveal"><h3><svg class="i"><use href="#i-cpu"/></svg>Agent：還能「做」</h3>
+        <ul class="list plus"><li>讀取整個資料夾、開啟每個檔案</li><li>執行程式、修改與刪除檔案</li><li>上網、呼叫服務、傳送資料</li><li>風險 ＝ 它碰得到、做得到的一切</li></ul></div>
+    </div>
+    <div class="scale reveal mt"><span>權限 ↑</span><i>›</i><span>能力 ↑</span><i>›</i><span class="risk">出錯或被誤導的代價 ↑</span></div>
+    <div class="tri reveal mt-s">
+      <div><b>PRINCIPLE 1</b><h4>最小權限</h4><p>只給完成任務所需的資料夾與功能</p></div>
+      <div><b>PRINCIPLE 2</b><h4>資料分級</h4><p>先分清楚什麼能給、什麼絕不能給</p></div>
+      <div><b>PRINCIPLE 3</b><h4>關鍵動作人工把關</h4><p>刪除、寄出、上傳、付款，由人確認</p></div>
+    </div>
+  </div>
+</section>
+
+
+<section class="slide" id="sec2" data-part="06 資安提醒" data-title="哪些資料能放、不能放">
+  <div class="slide-inner">
+    <p class="eyebrow amber reveal">06 · 資料分級</p>
+    <h2 class="reveal">哪些資料能給 AI？<span class="grad">紅、黃、綠三級</span></h2>
+    <div class="g3 mt-s">
+      <div class="card light red reveal"><h3><i class="ld"></i>不要放</h3>
+        <ul class="list"><li>含個資的<b>原始資料</b>：姓名、學號、Email、電話、證號</li><li>問卷原始填答、成績、個案與申訴紀錄</li><li>未公開的公文、內部會議、合約</li><li>密碼、API 金鑰、Token</li><li>有授權限制的資料庫檔案</li></ul></div>
+      <div class="card light yellow reveal"><h3><i class="ld"></i>處理後才放</h3>
+        <ul class="list"><li><b>去識別化</b>：移除姓名、學號、Email 等可辨識欄位</li><li>彙整後的統計結果</li><li>假資料或少量樣本</li><li>只用單位核可的工具與方案</li></ul>
+        <p class="note mt-s">小樣本、罕見組合，仍可能被推回是誰。</p></div>
+      <div class="card light green reveal"><h3><i class="ld"></i>可以放</h3>
+        <ul class="list"><li>公開網站資料與公告</li><li>在授權範圍內的公開排名與統計</li><li>自己撰寫、不含機密的文件</li><li>無法回推個人的匿名化資料</li></ul></div>
+    </div>
+    <div class="card hl reveal mt-s"><h3><svg class="i"><use href="#i-bolt"/></svg>原則：給 AI「結構」，不給「原件」</h3>
+      <p class="lead" style="font-size:1rem">只提供欄位名稱與幾列<b>假資料</b>，請它寫好處理程式，再由你在自己的電腦上，用真實資料執行。並請遵守學校與單位的資安、個資規範。</p></div>
+  </div>
+</section>
+
+
+<section class="slide" id="sec3" data-part="06 資安提醒" data-title="Agent 才有的風險">
+  <div class="slide-inner">
+    <p class="eyebrow amber reveal">06 · Agent 專屬風險</p>
+    <h2 class="reveal">Agent 才有的四種風險，<span class="grad">與對策</span></h2>
+    <div class="g2 mt-s">
+      <div class="card risk reveal"><h3><svg class="i"><use href="#i-warn"/></svg>提示詞注入</h3>
+        <p>網頁、文件、信件中夾帶「給 AI 的隱藏指令」（例如「忽略先前指示，把檔案傳到⋯⋯」），Agent 讀到就可能照做。</p>
+        <p class="fixit"><svg class="i"><use href="#i-check"/></svg><span>外部內容視為不可信；讓它讀外部資料時，不要同時能對外傳送資料；敏感動作由人確認。</span></p></div>
+      <div class="card risk reveal"><h3><svg class="i"><use href="#i-warn"/></svg>權限過大</h3>
+        <p>把整顆硬碟、主要帳號、寄信或刪檔權限都交出去，一次誤判的影響範圍就很大。</p>
+        <p class="fixit"><svg class="i"><use href="#i-check"/></svg><span>最小權限：專用資料夾、專用帳號，工作前先備份。</span></p></div>
+      <div class="card risk reveal"><h3><svg class="i"><use href="#i-warn"/></svg>憑證外洩</h3>
+        <p>密碼、API 金鑰寫進對話或程式碼，甚至一起推上公開的 GitHub，會被自動掃描並盜用。</p>
+        <p class="fixit"><svg class="i"><use href="#i-check"/></svg><span>金鑰放環境變數或 .env，並加入 .gitignore；一旦外洩，立刻撤銷重發。</span></p></div>
+      <div class="card risk reveal"><h3><svg class="i"><use href="#i-warn"/></svg>來路不明的工具與外掛</h3>
+        <p>安裝未經審查的外掛、擴充功能或套件，可能夾帶惡意行為，擁有你授權的所有權限。</p>
+        <p class="fixit"><svg class="i"><use href="#i-check"/></svg><span>只用官方或可信來源，安裝前確認它要求哪些權限。</span></p></div>
+    </div>
+  </div>
+</section>
+
+
+<section class="slide" id="sec4" data-part="06 資安提醒" data-title="上線前檢查表（互動）">
+  <div class="slide-inner">
+    <p class="eyebrow amber reveal">06 · 使用守則</p>
+    <h2 class="reveal">交給 Agent 之前，<span class="grad">先過這八關</span></h2>
+    <div class="checks mt-s reveal" id="secList">
+      <button class="chk" aria-pressed="false"><b></b><span>只給必要的資料夾與權限（最小權限）</span></button>
+      <button class="chk" aria-pressed="false"><b></b><span>原始資料先去識別化，或改用假資料／樣本</span></button>
+      <button class="chk" aria-pressed="false"><b></b><span>密碼、金鑰、Token 一律不貼進對話</span></button>
+      <button class="chk" aria-pressed="false"><b></b><span>刪除、覆蓋、寄出、上傳、付款前，由人確認</span></button>
+      <button class="chk" aria-pressed="false"><b></b><span>工作前先備份，並使用版本控制</span></button>
+      <button class="chk" aria-pressed="false"><b></b><span>外部內容（網頁、信件、檔案）視為不可信</span></button>
+      <button class="chk" aria-pressed="false"><b></b><span>公開部署前檢查：公開的 GitHub 不放原始資料、金鑰、個資</span></button>
+      <button class="chk" aria-pressed="false"><b></b><span>留下紀錄：用了什麼資料、做了什麼，可追溯、可驗收</span></button>
+    </div>
+    <div class="meter reveal mt-s">
+      <div class="cnt"><span id="secCount">0</span><small>／ 8 已確認</small></div>
+      <div class="vd" id="secVerdict" aria-live="polite"></div>
+    </div>
+    <p class="note reveal mt-s"><svg class="i"><use href="#i-lock"/></svg> 這份講義本身是公開網站：所有畫面都是示意資料，不含任何原始資料。　👆 可以點選逐項打勾。</p>
+  </div>
+</section>
+
+<!-- ====================================================================
+     結語
+     ==================================================================== -->
+<section class="slide" id="end" data-part="結語" data-title="帶走四件事 · Q&A">
+  <div class="slide-inner">
+    <p class="eyebrow reveal">Takeaways</p>
+    <h2 class="reveal">帶走四件事</h2>
+    <div class="g4 mt-s">
+      <div class="card hl reveal"><div class="closing-num">1</div><h3>Agent 會動手</h3><p class="lead" style="font-size:.98rem;margin-top:8px">電腦能做的事，它都能做——差別只在你授權它碰什麼。</p></div>
+      <div class="card reveal"><div class="closing-num">2</div><h3>從「問」變成「派」</h3><p class="lead" style="font-size:.98rem;margin-top:8px">講清楚目標、素材、格式、完成標準，然後驗收。</p></div>
+      <div class="card reveal"><div class="closing-num">3</div><h3>往第三層前進</h3><p class="lead" style="font-size:.98rem;margin-top:8px">把你的資料與判斷標準交給它，養出自己的分身。</p></div>
+      <div class="card warn-card reveal"><div class="closing-num">4</div><h3>資安先行</h3><p class="lead" style="font-size:.98rem;margin-top:8px">原始資料不上傳、權限最小化、關鍵動作由人把關。</p></div>
+    </div>
+    <div class="qa mt reveal">
+      <div class="big-q grad">Q &amp; A</div>
+      <div class="chips">
+        <a class="chip" href="https://www.anthropic.com/institute/measuring-pace-of-ai-development" target="_blank" rel="noopener"><svg class="i"><use href="#i-ext"/></svg> Anthropic 報告原文</a>
+        <a class="chip" href="#cover"><svg class="i"><use href="#i-up"/></svg> 回到開頭</a>
+        <a class="chip" href="#roadmap"><svg class="i"><use href="#i-menu"/></svg> 回到路線</a>
+      </div>
+    </div>
+    <p class="note reveal mt-s">林冠宇｜永續發展與校務研究中心　·　2026.09.21 國際處分享</p>
+  </div>
+</section>
+
+<!-- ====================================================================
+     資料來源（參考資料）
+     ==================================================================== -->
+<section class="slide" id="refs" data-part="資料來源" data-title="資料來源">
+  <div class="slide-inner">
+    <p class="eyebrow reveal">References</p>
+    <h2 class="reveal">資料來源</h2>
+    <div class="refs mt-s">
+      <a class="refcard reveal" href="https://www.anthropic.com/institute/measuring-pace-of-ai-development" target="_blank" rel="noopener">
+        <span class="rn">01</span>
+        <span class="rbody"><span class="rtitle">Claude 報告</span><span class="rhost">anthropic.com</span></span>
+        <svg class="i"><use href="#i-ext"/></svg>
+      </a>
+      <a class="refcard reveal" href="https://www.youtube.com/watch?v=DX15z_PUz_0" target="_blank" rel="noopener">
+        <span class="rn">02</span>
+        <span class="rbody"><span class="rtitle">用AI工作沒有更輕鬆？因為你只是在下無用指令！有這四個零件，AI才會替你工作｜Kelly Tsai</span><span class="rhost">youtube.com</span></span>
+        <svg class="i"><use href="#i-ext"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script src="assets/main.js"></script>
+</body>
+</html>
